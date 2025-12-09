@@ -1,4 +1,4 @@
-COUNTRY,PLACE,LANGUAGE,TIMEZONE,SPECIALITIES,IMAGES
+COUNTRY,PLACE,LANGUAGE,TIMEZONE,SPECIALITIES,IMAGE;
 Maldives,Maafushi Island,Dhivehi,Uzbekistan Time (UZT),"Cafes and shops, Maafushi Jetty; Sandbank trips",https://f.tpkcdn.com/review-source/cd430b70-8348-7bdc-5443-5ae96d859fa1.jpg
 Maldives,Vaadhoo Island (Sea of Stars),Dhivehi,Uzbekistan Time (UZT),"Bioluminescent beach, Night beach walks, Local Villages",https://charismaticplanet.com/wp-content/uploads/2020/07/Sea-of-Stars-Vaadhoo-Island-Maldives.jpg
 Maldives,Hanifaru Bay,Dhivehi,Uzbekistan Time (UZT),"UNESCO Biosphere Reserve,Manta rays and Whale sharks snorkelling, Dharavandhoo Thila",https://baliomtours.com/storage/2022/09/bali-om-tours-sumbawa-whaleshark-3.jpg
@@ -19,3 +19,4 @@ Bhutan,Punakha Dzong,Dzongkha,Bangladesh Standard Time (BST),"Located at the mee
 Bhutan,Thimphu (Buddha Dordenma Statue),Dzongkha,Bangladesh Standard Time (BST),"Bhutan’s capital city, 169-foot Buddha statue, Clock Tower Square, Tashichho Dzong, weekend markets",https://cdn.britannica.com/02/75702-050-C11357BD/Schoolchildren-hill-Thimpu-Bhutan.jpg
 Bhutan,Dochula Pass,Dzongkha,Bangladesh Standard Time (BST),"108 Druk Wangyal Chortens, high mountain pass at 3,100 m, Popular stop between Thimphu to Punakha",https://www.mustseespots.com/bhutan/img/dochula-pass-2.jpg
 Bhutan,Phobjikha Valley (Gangtey),Dzongkha,Bangladesh Standard Time (BST),"Serene glacial valley known for its natural beauty, home to the endangered black-necked cranes, rural bhutan",https://thrillingtravel.in/wp-content/uploads/2018/05/Gangtey-monastery-phobjikha-valley-768x512.jpg
+
