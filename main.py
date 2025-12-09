@@ -1,13 +1,7 @@
 # main.py
 from flask import Flask, request
 import requests, csv
-import pandas as pd
-url= https://raw.githubusercontent.com/prekshanehru13/RouteAndRoam/refs/heads/main/RouteAndRoam-Data.csv?token=GHSAT0AAAAAADP7AJRWDNSRS6I3HT44EAZ42JXYDQA
-try:
-    df = pd.read_csv(url)
-    print(df.head())
-except Exception as e:
-    print(f"Error reading CSV: {e}")
+
 
 
 app = Flask(__name__)
