@@ -35,7 +35,7 @@ def home():
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('/static/images/RouteAndRoamBG.jpg');
+            background-image: url('"C:\Users\Preksha\RouteAndRoam\RouteAndRoamBG.jpg"');
             background-size: cover;
             background-position: center;
             filter: blur(18px) brightness(0.8);
