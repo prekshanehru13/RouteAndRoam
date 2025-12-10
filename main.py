@@ -35,7 +35,7 @@ def home():
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('"https://github.com/prekshanehru13/RouteAndRoam/blob/main/RouteAndRoamBG.jpg"');
+            background-image: url('"RouteAndRoamBG.jpg"');
             background-size: cover;
             background-position: center;
             filter: blur(18px) brightness(0.8);
@@ -50,7 +50,7 @@ def home():
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://github.com/prekshanehru13/RouteAndRoam/blob/main/RouteAndRoamBG.jpg');
+            background-image: url('RouteAndRoamBG.jpg');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
