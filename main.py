@@ -86,6 +86,17 @@ def home():
                 text-align: center;
                 box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             ">Currency Exchange</a>
+            <a href="/explore" style="
+                padding: 20px 60px;
+                background: #FF4500;
+                color: white;
+                border-radius: 50px;
+                font-size: 28px;
+                font-weight: 600;
+                text-decoration: none;
+                text-align: center;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            ">Explore</a>
         </div>
 
     </div>
@@ -177,41 +188,58 @@ if __name__ == '__main__':
 # ====================================
 # Shreya's Part Starts Here!
 # ====================================
-from module3 import PlacesModule
-pm= PlacesModule(r"C:\Users\mgpre\Documents\python\places.csv")
-mod = PlacesModule(r"C:\Users\mgpre\Documents\python\places.csv")
+@app.route('/explore', methods=['GET', 'POST'])
+def explore():
+    if request.method == 'POST':
+        country = request.form['country']
+        places = mod.list_places_by_country(country)
+
+        if not places:
+            return f"<h2>No places found in {country}</h2><a href='/explore'>Back</a>"
+
+        # If country submitted but no place selected yet
+        if 'place' not in request.form:
+            html = f"<h1>Places in {country.title()}</h1>"
+            html += "<form method='post'>"
+            html += f"<input type='hidden' name='country' value='{country}'>"
+            html += "<select name='place'>"
+
+            for p in places:
+                html += f"<option value='{p}'>{p}</option>"
+
+            html += "</select>"
+            html += "<button type='submit'>Show Details</button></form>"
+            return html
+
+        # Step 2: User selected place
+        place = request.form['place']
+        info = mod.get_place_info(country, place)
+
+        if info is None:
+            return "<h2>Place not found</h2> <a href='/explore'>Try Again</a>"
+
+        return f"""
+        <h1>Details</h1>
+        <p><b>Country:</b> {info['COUNTRY']}</p>
+        <p><b>Place:</b> {info['PLACE']}</p>
+        <p><b>Language:</b> {info['LANGUAGE']}</p>
+        <p><b>Timezone:</b> {info['TIMEZONE']}</p>
+        <p><b>Specialities:</b> {info['SPECIALITIES']}</p>
+        <img src="{info['IMAGES']}" width="400">
+        <br><br>
+        <a href='/explore'>Search Again</a>
+        """
+    
+    # FIRST LOAD — ask for country
+    return """
+    <h1>Search Places</h1>
+    <form method="post">
+        <input name="country" placeholder="Enter country name">
+        <button type="submit">Search</button>
+    </form>
+    """
 
 
-# Step 1: enter country
-country = input("Enter a country name: ")
-
-places = mod.list_places_by_country(country)
-
-if not places:
-    print("No places found for this country.")
-    exit()
-
-print("\nPlaces available in", country.title())
-for p in places:
-    print("-", p.title())
-
-# Step 2: enter place
-place = input("\nEnter a place from the list: ")
-
-info = mod.get_place_info(country, place)
-
-if info is None:
-    print("Place not found under this country.")
-else:
-    print("\n--- DETAILS ---")
-    print("Country:", info["COUNTRY"].title())
-    print("Place:", info["PLACE"].title())
-    print("Language:", info["LANGUAGE"])
-    print("Timezone:", info["TIMEZONE"])
-    print("Specialities:", info["SPECIALITIES"])
-
-    print("\nOpening image...")
-    mod.show_image(info["IMAGES"])
 
 # ====================================
 # Shreya's part ends here
