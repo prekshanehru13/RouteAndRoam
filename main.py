@@ -187,9 +187,7 @@ def currency():
 # ====================================
 # PRIYAL SINGH'S CURRENCY CONVERTER ENDS
 # ====================================
-if __name__ == '__main__':
-    print("RouteAndRoam started → Your currency converter is now the CUTEST EVER!")
-    app.run(debug=True)
+
 
 # ====================================
 # Shreya's Part Starts Here!
