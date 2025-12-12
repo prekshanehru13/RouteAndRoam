@@ -1,6 +1,9 @@
 # main.py 
 from flask import Flask, request
 import requests, csv
+from module3 import PlacesModule
+mod = PlacesModule(r"C:\Users\mgpre\Documents\python\places.csv")
+
 
 app = Flask(__name__)
 
