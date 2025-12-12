@@ -2,7 +2,10 @@
 from flask import Flask, request
 import requests, csv
 from module3 import PlacesModule
-mod = PlacesModule('RouteAndRoam-Data.csv')
+
+# Load RouteAndRoam CSV for explore feature
+mod = PlacesModule("RouteAndRoam-Data.csv")
+
 
 
 app = Flask(__name__)
@@ -194,58 +197,67 @@ if __name__ == '__main__':
 @app.route('/explore', methods=['GET', 'POST'])
 def explore():
     if request.method == 'POST':
-        country = request.form['country']
+        country = request.form.get('country', '').strip()
+
+        # STEP 1: Get all places for this country
         places = mod.list_places_by_country(country)
 
         if not places:
-            return f"<h2>No places found in {country}</h2><a href='/explore'>Back</a>"
+            return f"""
+            <h1>No places found in '{country.title()}'</h1>
+            <a href='/explore'>Try Again</a>
+            """
 
-        # If country submitted but no place selected yet
+        # If COUNTRY is selected, but PLACE is not selected yet
         if 'place' not in request.form:
             html = f"<h1>Places in {country.title()}</h1>"
             html += "<form method='post'>"
             html += f"<input type='hidden' name='country' value='{country}'>"
-            html += "<select name='place'>"
+            html += "<select name='place' style='padding:12px; font-size:18px;'>"
 
             for p in places:
-                html += f"<option value='{p}'>{p}</option>"
+                html += f"<option value='{p}'>{p.title()}</option>"
 
             html += "</select>"
-            html += "<button type='submit'>Show Details</button></form>"
+            html += "<br><br>"
+            html += "<button type='submit' style='padding:12px 25px;'>Show Details</button>"
+            html += "</form>"
             return html
 
-        # Step 2: User selected place
+        # STEP 2: User selected a place
         place = request.form['place']
         info = mod.get_place_info(country, place)
 
         if info is None:
-            return "<h2>Place not found</h2> <a href='/explore'>Try Again</a>"
+            return "<h2>Place not found</h2><a href='/explore'>Try Again</a>"
 
         return f"""
-        <h1>Details</h1>
-        <p><b>Country:</b> {info['COUNTRY']}</p>
-        <p><b>Place:</b> {info['PLACE']}</p>
+        <h1>{info['PLACE'].title()}</h1>
+        <p><b>Country:</b> {info['COUNTRY'].title()}</p>
         <p><b>Language:</b> {info['LANGUAGE']}</p>
         <p><b>Timezone:</b> {info['TIMEZONE']}</p>
         <p><b>Specialities:</b> {info['SPECIALITIES']}</p>
-        <img src="{info['IMAGES']}" width="400">
-        <br><br>
-        <a href='/explore'>Search Again</a>
+
+        <img src="{info['IMAGES']}" style="width:400px; border-radius:20px;"><br><br>
+
+        <a href='/explore'>Search Again</a> |
+        <a href='/'>Home</a>
         """
-    
-    # FIRST LOAD — ask for country
+
+    # FIRST PAGE — Ask for country
     return """
-    <h1>Search Places</h1>
+    <h1>Search Country</h1>
     <form method="post">
-        <input name="country" placeholder="Enter country name">
-        <button type="submit">Search</button>
+        <input name="country" placeholder="Enter country name"
+               style="padding:12px; font-size:18px;">
+        <button type="submit" style="padding:12px 25px;">Next</button>
     </form>
     """
-
-
-
 # ====================================
 # Shreya's part ends here
 # ====================================
+if __name__ == '__main__':
+    print("RouteAndRoam started → Explore to your heart's content!")
+    app.run(debug=True)
 
 
