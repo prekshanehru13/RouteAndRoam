@@ -6,7 +6,7 @@ import re
 import os
 
 class PlacesModule:
-    def __init__(self, csv_path="places.csv"):
+    def __init__(self, csv_path="RouteAndRoam-Data.csv"):
         # Convert given path to absolute safe path
         csv_path = os.path.abspath(csv_path)
 
@@ -73,3 +73,4 @@ class PlacesModule:
 
         except Exception as e:
             print("Could not load image:", e)
+
