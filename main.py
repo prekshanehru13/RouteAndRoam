@@ -103,6 +103,18 @@ def home():
                 text-align: center;
                 box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             ">Explore</a>
+            <a href="/season" style="
+                padding: 20px 60px;
+                background: #FF4500;
+                color: white;
+                border-radius: 50px;
+                font-size: 28px;
+                font-weight: 600;
+                text-decoration: none;
+                text-align: center;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            ">Best Season</a>
+
         </div>
 
     </div>
@@ -254,6 +266,94 @@ def explore():
 # ====================================
 # Shreya's part ends here
 # ====================================
+
+
+# ====================================
+# Rachana's Part Starts Here
+# ====================================
+        # ================================
+        # RouteAndRoam – Best Season Data
+        # ================================
+travel_data = {
+    "Thailand": {
+        "Phuket": {"season": "Cool & Dry Season", "months": "November to April"},
+        "Bangkok": {"season": "Dry & Pleasant Season", "months": "November to February"},
+        "Pattaya": {"season": "Best Beach Season", "months": "November to May"}
+    },
+    "Maldives": {
+        "Maafushi Island": {"season": "Dry Season", "months": "December to March"},
+        "Vaadhoo Island": {"season": "Dry Season", "months": "January to March"},
+        "Hanifaru Bay": {"season": "Manta Season", "months": "August to November"},
+        "Banana Reef": {"season": "Calm Sea Months", "months": "January to April"},
+        "Veligandu Island": {"season": "Dry Season", "months": "November to April"}
+    },
+    "Bhutan": {
+        "Dochula Pass": {"season": "Spring / Autumn", "months": "March to May, September to November"},
+        "Paro Taktsang": {"season": "Spring / Autumn", "months": "April to May, September to November"},
+        "Phobjikha Valley": {"season": "Autumn", "months": "October to December"},
+        "Punakha Dzong": {"season": "Spring", "months": "February to April"},
+        "Thimphu": {"season": "Spring / Autumn", "months": "March to May, September to November"}
+    },
+    "Singapore": {
+        "Sentosa Island": {"season": "Dry & Sunny Months", "months": "February to April"},
+        "Marina Bay Sands": {"season": "Best Weather Months", "months": "February to August"},
+        "Gardens by the Bay": {"season": "Festival Season", "months": "November to January"}
+    }
+}
+        # ====================================
+        # Route Defining
+        # ====================================
+
+
+@app.route('/season', methods=['GET', 'POST'])
+def season():
+    if request.method == 'POST':
+        country = request.form.get('country')
+        place = request.form.get('place')
+
+        if place:
+            info = travel_data[country][place]
+            return f"""
+            <h1>{place}</h1>
+            <p><b>Best Season:</b> {info['season']}</p>
+            <p><b>Best Months:</b> {info['months']}</p>
+            <br>
+            <a href="/season">Search Again</a> |
+            <a href="/">Home</a>
+            """
+
+        places = travel_data.get(country, {})
+        options = "".join(f"<option value='{p}'>{p}</option>" for p in places)
+
+        return f"""
+        <h1>Select Place in {country}</h1>
+        <form method="post">
+            <input type="hidden" name="country" value="{country}">
+            <select name="place" style="padding:15px;font-size:20px;">
+                {options}
+            </select><br><br>
+            <button style="padding:12px 40px;">Show Best Season</button>
+        </form>
+        """
+
+    country_options = "".join(
+        f"<option value='{c}'>{c}</option>" for c in travel_data
+    )
+
+    return f"""
+    <h1>Select Country</h1>
+    <form method="post">
+        <select name="country" style="padding:15px;font-size:20px;">
+            {country_options}
+        </select><br><br>
+        <button style="padding:12px 40px;">Next</button>
+    </form>
+    """
+# ====================================
+# Rachana's Part Ends Here
+# ====================================
+
+
 if __name__ == '__main__':
     print("RouteAndRoam started → Explore to your heart's content!")
     app.run(debug=True)
