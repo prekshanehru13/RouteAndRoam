@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="emoji">🗺️🌤️</div>
+<h1>{{ place }}</h1>
+
+<div class="card">
+    <p><b>🌍 Country:</b> {{ country }}</p>
+    <p><b>☀ Best Season:</b> {{ info['season'] }}</p>
+    <p><b>📅 Best Months:</b> {{ info['months'] }}</p>
+
+    <a href="/seasons">🔄 Search Again</a> |
+    <a href="/">🏠 Home</a>
+</div>
+
+{% endblock %}

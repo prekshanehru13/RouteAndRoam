@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Route & Roam</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+
+            /* pastel blended background */
+            background: linear-gradient(to bottom,
+                    #f3d7e6,
+                    #fbc2d9,
+                    #ffd6a5);
+
+            color: #c86b28;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            width: 420px;
+            margin: 80px auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            width: 430px;
+            margin: auto;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            font-size: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+
+            background: linear-gradient(to right,
+                    #ffb703,
+                    #f4a261);
+
+            color: white;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #FFB980;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #FFA45C;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #d9772b;
+        }
+
+
+        a {
+            color: #D17A42;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .emoji {
+            font-size: 60px;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 12px;
+            border: 2px solid #f4a261;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    {% block content %}{% endblock %}
+    <script src="{{ url_for('static', filename='effects.js') }}"></script>
+
+</body>
+
+</html>

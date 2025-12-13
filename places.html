@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="emoji">🏝️🌄</div>
+<h1>Tourist Places in {{ country }}</h1>
+
+<div class="card">
+    <form action="/result" method="post">
+
+        <input type="hidden" name="country" value="{{ country }}">
+
+        <select name="place">
+            {% for p in places %}
+            <option value="{{ p }}">{{ p }}</option>
+            {% endfor %}
+        </select>
+
+        <button>Show Best Time</button>
+    </form>
+</div>
+
+{% endblock %}

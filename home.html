@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="emoji">🌍✈️</div>
+<h1>Route & Roam – Vacation Planner</h1>
+
+<div class="card">
+    <form action="/places" method="post">
+
+        <h3>Select a Country</h3>
+
+        <select name="country">
+            {% for c in countries %}
+            <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+        </select>
+
+        <button>Next</button>
+    </form>
+</div>
+
+{% endblock %}
