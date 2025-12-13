@@ -11,6 +11,7 @@ mod = PlacesModule("RouteAndRoam-Data.csv")
 app = Flask(__name__)
 
 # Load your CSV (your teammates' part remains untouched)
+#FRONTEND
 places = []
 try:
     with open('RouteAndRoam-Data.csv', newline='', encoding='utf-8') as f:
@@ -119,6 +120,7 @@ def home():
 
     </div>
     '''
+#BACKEND
 
 @app.route('/places')
 def show():
