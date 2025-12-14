@@ -1,7 +1,9 @@
-ROUTEANDROAM: A project presented by a team of four; CODEQUAD
+                                                              ROUTEANDROAM: A project presented by a team of four; CODEQUAD
 
 
-RouteAndRoam is a travel guide to help make travel easy and convenient. With detailed information about locations, tourist stops, weather conditions as well as currency exchange, RouteAndRoam makes travel easy, especially for people travelling internationally for the first time.
+RouteAndRoam is a travel guide to help make travel easy and convenient. With detailed information about locations, tourist stops, best seasons as well as currency exchange, RouteAndRoam makes travel easy, especially for people travelling internationally for the first time.
+
+
 This group project has four parts, each getting seperately managed by four team members 
   Priyal Singh: Currency Convertor Module 
   R Shreya: Popular Places And Images (Streamlit/Pillow)
