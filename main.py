@@ -15,6 +15,9 @@ try:
 except:
     places = []
 @app.route('/')
+# ================================================
+# PREKSHA'S PART STARTS HERE 
+# ====================================
 def home():
     return '''
     <div style="
@@ -127,6 +130,12 @@ def show():
         </div>
         """
     return html + '</div><div style="text-align:center; margin:70px;"><a href="/" style="padding:20px 60px; background:#feca57; color:white; border-radius:60px; text-decoration:none; font-size:26px;">Home</a></div>'
+
+ # ================================================
+# PREKSHA'S PART ENDS HERE 
+# ====================================
+
+
 # ================================================
 # PRIYAL SINGH'S CURRENCY CONVERTER STARTS
 # ====================================
