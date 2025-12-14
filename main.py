@@ -1,16 +1,11 @@
-# main.py 
+# main.py
 from flask import Flask, request
 import requests, csv
 from module3 import PlacesModule
-
 # Load RouteAndRoam CSV for explore feature
 mod = PlacesModule("RouteAndRoam-Data.csv")
-
-
-
 app = Flask(__name__)
-
-# Load your CSV (your teammates' part remains untouched)
+# Load your CSV 
 #FRONTEND
 places = []
 try:
@@ -19,7 +14,6 @@ try:
             places.append(row)
 except:
     places = []
-
 @app.route('/')
 def home():
     return '''
@@ -34,7 +28,6 @@ def home():
         font-family: 'Poppins', sans-serif;
         overflow: hidden;
     ">
-
         <!-- Blurred background layer -->
         <div style="
             position: absolute;
@@ -46,10 +39,9 @@ def home():
             background-size: cover;
             background-position: center;
             filter: blur(18px) brightness(0.8);
-            transform: scale(1.2);     /* avoid blur edges */
+            transform: scale(1.2); /* avoid blur edges */
             z-index: -2;
         "></div>
-
         <!-- Main image (full but not zoomed) -->
         <div style="
             position: absolute;
@@ -63,7 +55,6 @@ def home():
             background-position: center;
             z-index: -1;
         "></div>
-
         <!-- Buttons -->
         <div style="
             display: flex;
@@ -81,7 +72,6 @@ def home():
                 text-align: center;
                 box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             ">Destinations</a>
-
             <a href="/currency" style="
                 padding: 20px 60px;
                 background: #FF4500;
@@ -115,37 +105,28 @@ def home():
                 text-align: center;
                 box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             ">Best Season</a>
-
         </div>
-
     </div>
     '''
 #BACKEND
-
 @app.route('/places')
 def show():
     html = "<h1 style='text-align:center; color:#5f27cd; margin:70px; font-size:55px;'>Our Beautiful Places</h1><div style='display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:30px; padding:40px;'>"
     for p in places:
-        
+       
         html += f"""
-        <div style='background:white; border-radius:30px; padding:30px; 
+        <div style='background:white; border-radius:30px; padding:30px;
         box-shadow:0 25px 50px rgba(0,0,0,0.15); text-align:center;'>
-
             <h2 style='color:#ff6b6b;'>{p.get('PLACE','')}</h2>
             <h3 style='color:#54a0ff;'>{p.get('COUNTRY','')}</h3>
-
             <p><b>Language:</b> {p.get('LANGUAGE','')}</p>
             <p><b>Timezone:</b> {p.get('TIMEZONE','')}</p>
             <p><b>Specialities:</b> {p.get('SPECIALITIES','')}</p>
-
-            <img src="{p.get('IMAGES','')}" 
+            <img src="{p.get('IMAGES','')}"
             style="width:100%; border-radius:20px; margin-top:15px;">
         </div>
         """
-
-
     return html + '</div><div style="text-align:center; margin:70px;"><a href="/" style="padding:20px 60px; background:#feca57; color:white; border-radius:60px; text-decoration:none; font-size:26px;">Home</a></div>'
-
 # ================================================
 # PRIYAL SINGH'S CURRENCY CONVERTER STARTS
 # ====================================
@@ -153,7 +134,6 @@ def show():
 def currency():
     currencies = ["INR","USD","EUR","GBP","JPY","AED","THB","CNY","KRW","SGD","AUD","CAD","CHF","BRL","PHP","VND","IDR","MYR"]
     options = "".join(f"<option value='{c}'>{c}</option>" for c in currencies)
-
     if request.method == 'POST':
         try:
             amount = float(request.form['amount'])
@@ -161,7 +141,6 @@ def currency():
             t = request.form['t']
             rate = requests.get(f"https://api.exchangerate-api.com/v4/latest/{f}").json()['rates'][t]
             result = amount * rate
-
             return f'''
             <div style="min-height:100vh;background:linear-gradient(135deg,#ffb300,#ff9800);display:flex;align-items:center;justify-content:center;font-family:system-ui;">
                 <audio autoplay><source src="https://assets.mixkit.co/sfx/preview/mixkit-coin-cha-ching-2108.mp3"></audio>
@@ -180,7 +159,6 @@ def currency():
             '''
         except:
             return "<h1 style='color:red;text-align:center;padding-top:40vh;font-size:40px;'>Error! Check amount</h1><a href='/currency'>Back</a>"
-
     # MAIN PAGE – COMPACT & BEAUTIFUL
     return f'''
     <div style="min-height:100vh;background:linear-gradient(135deg,#ffb300,#ff9800);display:flex;align-items:center;justify-content:center;font-family:system-ui;">
@@ -201,181 +179,165 @@ def currency():
 # ====================================
 # PRIYAL SINGH'S CURRENCY CONVERTER ENDS
 # ====================================
-
-
 # ====================================
 # Shreya's Part Starts Here!
 # ====================================
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RouteAndRoam - Amazing Travel Destinations</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #ffd166, #ff9a56, #ff6b35, #f7931e);
-      margin: 0;
-      padding: 20px;
-      color: #333;
-      min-height: 100vh;
-    }
-
-    h1 {
-      text-align: center;
-      color: white;
-      margin-bottom: 10px;
-      font-family: 'Playfair Display', serif;
-      font-size: 3.6em;
-      letter-spacing: 4px;
-      text-shadow: 0 8px 25px rgba(0,0,0,0.5);
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #ffffe0;
-      margin-bottom: 60px;
-      font-size: 1.4em;
-      font-style: italic;
-      text-shadow: 0 3px 10px rgba(0,0,0,0.4);
-    }
-
-    .controls {
-      max-width: 900px;
-      margin: 0 auto 70px;
-      display: flex;
-      gap: 25px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    select {
-      padding: 18px 22px;
-      border: none;
-      border-radius: 18px;
-      font-size: 17px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      background: rgba(255,255,255,0.92);
-      min-width: 260px;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-    }
-
-    #detailsBox {
-      max-width: 1100px;
-      margin: 50px auto;
-      padding: 60px;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 30px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.35);
-      display: none;
-      text-align: center;
-      backdrop-filter: blur(20px);
-      border: 2px solid rgba(255, 180, 80, 0.5);
-    }
-
-    #detailsBox h2 {
-      color: #d35400;
-      margin-top: 0;
-      font-size: 3em;
-      text-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      font-family: 'Playfair Display', serif;
-    }
-
-    .description {
-      font-size: 1.3em;
-      line-height: 2;
-      color: #444;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 30px;
-      background: #fffff0;
-      border-radius: 20px;
-      border-left: 8px solid #e67e22;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-
-    .images-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      justify-content: center;
-      margin: 50px 0;
-    }
-
-    .images-container img {
-      max-width: 100%;
-      max-height: 500px;
-      border-radius: 25px;
-      box-shadow: 0 20px 45px rgba(0,0,0,0.35);
-      cursor: pointer;
-      transition: transform 0.6s ease, box-shadow 0.6s ease;
-      object-fit: cover;
-    }
-
-    .images-container img:hover {
-      transform: translateY(-20px) scale(1.04);
-      box-shadow: 0 40px 80px rgba(0,0,0,0.45);
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 120px;
-      color: #ffffe0;
-      font-size: 1.1em;
-      text-shadow: 0 3px 12px rgba(0,0,0,0.5);
-    }
-
-    @media (max-width: 768px) {
-      .images-container {
-        flex-direction: column;
-        align-items: center;
-      }
-      h1 { font-size: 3em; }
-      select { min-width: 100%; }
-      #detailsBox { padding: 40px; }
-    }
-  </style>
-</head>
-<body>
-  <h1>RouteAndRoam</h1>
-  <p class="subtitle">Every Route, Every Roam, Your Adventure Awaits</p>
-
-  <div class="controls">
-    <select id="countryFilter">
-      <option value="">Select a Country</option>
-      <option value="Bhutan">Bhutan</option>
-      <option value="Maldives">Maldives</option>
-      <option value="Singapore">Singapore</option>
-      <option value="Thailand">Thailand</option>
-    </select>
-    <select id="placeFilter" disabled>
-      <option value="">First select a country</option>
-    </select>
-  </div>
-
-  <div id="detailsBox">
-    <h2 id="placeName"></h2>
-    <div class="description" id="descriptionText"></div>
-    <div class="images-container" id="imagesContainer"></div>
-  </div>
-
-  <div class="footer">
-    Made with love for wanderlust souls ✈️🌴🏖️🍹
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script>
-    const countryFilter = document.getElementById('countryFilter');
-    const placeFilter = document.getElementById('placeFilter');
-    const detailsBox = document.getElementById('detailsBox');
-    const placeName = document.getElementById('placeName');
-    const descriptionText = document.getElementById('descriptionText');
-    const imagesContainer = document.getElementById('imagesContainer');
-
-    const csvData = `Country,Place,Description,Image_URL_1,Image_URL_2
+@app.route('/explore')
+def explore():
+    return '''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <title>RouteAndRoam - Amazing Travel Destinations</title>
+      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+      <style>
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, #ffd166, #ff9a56, #ff6b35, #f7931e);
+          margin: 0;
+          padding: 20px;
+          color: #333;
+          min-height: 100vh;
+        }
+        h1 {
+          text-align: center;
+          color: white;
+          margin-bottom: 10px;
+          font-family: 'Playfair Display', serif;
+          font-size: 3.6em;
+          letter-spacing: 4px;
+          text-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+        .subtitle {
+          text-align: center;
+          color: #ffffe0;
+          margin-bottom: 60px;
+          font-size: 1.4em;
+          font-style: italic;
+          text-shadow: 0 3px 10px rgba(0,0,0,0.4);
+        }
+        .controls {
+          max-width: 900px;
+          margin: 0 auto 70px;
+          display: flex;
+          gap: 25px;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        select {
+          padding: 18px 22px;
+          border: none;
+          border-radius: 18px;
+          font-size: 17px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+          background: rgba(255,255,255,0.92);
+          min-width: 260px;
+          cursor: pointer;
+          backdrop-filter: blur(8px);
+        }
+        #detailsBox {
+          max-width: 1100px;
+          margin: 50px auto;
+          padding: 60px;
+          background: rgba(255, 255, 255, 0.95);
+          border-radius: 30px;
+          box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+          display: none;
+          text-align: center;
+          backdrop-filter: blur(20px);
+          border: 2px solid rgba(255, 180, 80, 0.5);
+        }
+        #detailsBox h2 {
+          color: #d35400;
+          margin-top: 0;
+          font-size: 3em;
+          text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+          font-family: 'Playfair Display', serif;
+        }
+        .description {
+          font-size: 1.3em;
+          line-height: 2;
+          color: #444;
+          max-width: 900px;
+          margin: 40px auto;
+          padding: 30px;
+          background: #fffff0;
+          border-radius: 20px;
+          border-left: 8px solid #e67e22;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .images-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 30px;
+          justify-content: center;
+          margin: 50px 0;
+        }
+        .images-container img {
+          max-width: 100%;
+          max-height: 500px;
+          border-radius: 25px;
+          box-shadow: 0 20px 45px rgba(0,0,0,0.35);
+          cursor: pointer;
+          transition: transform 0.6s ease, box-shadow 0.6s ease;
+          object-fit: cover;
+        }
+        .images-container img:hover {
+          transform: translateY(-20px) scale(1.04);
+          box-shadow: 0 40px 80px rgba(0,0,0,0.45);
+        }
+        .footer {
+          text-align: center;
+          margin-top: 120px;
+          color: #ffffe0;
+          font-size: 1.1em;
+          text-shadow: 0 3px 12px rgba(0,0,0,0.5);
+        }
+        @media (max-width: 768px) {
+          .images-container {
+            flex-direction: column;
+            align-items: center;
+          }
+          h1 { font-size: 3em; }
+          select { min-width: 100%; }
+          #detailsBox { padding: 40px; }
+        }
+      </style>
+    </head>
+    <body>
+      <h1>RouteAndRoam</h1>
+      <p class="subtitle">Every Route, Every Roam, Your Adventure Awaits</p>
+      <div class="controls">
+        <select id="countryFilter">
+          <option value="">Select a Country</option>
+          <option value="Bhutan">Bhutan</option>
+          <option value="Maldives">Maldives</option>
+          <option value="Singapore">Singapore</option>
+          <option value="Thailand">Thailand</option>
+        </select>
+        <select id="placeFilter" disabled>
+          <option value="">First select a country</option>
+        </select>
+      </div>
+      <div id="detailsBox">
+        <h2 id="placeName"></h2>
+        <div class="description" id="descriptionText"></div>
+        <div class="images-container" id="imagesContainer"></div>
+      </div>
+      <div class="footer">
+        Made with love for wanderlust souls ✈️🌴🏖️🍹
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+      <script>
+        const countryFilter = document.getElementById('countryFilter');
+        const placeFilter = document.getElementById('placeFilter');
+        const detailsBox = document.getElementById('detailsBox');
+        const placeName = document.getElementById('placeName');
+        const descriptionText = document.getElementById('descriptionText');
+        const imagesContainer = document.getElementById('imagesContainer');
+        const csvData = `Country,Place,Description,Image_URL_1,Image_URL_2
 Maldives,Maafushi Island,"Maafushi Island in South Male Atoll revolutionized Maldives tourism when guesthouses were permitted on local islands in 2009, shifting from exclusive luxury resorts to affordable, authentic experiences. Once a quiet fishing village with a former prison, it now boasts Bikini Beach (rare designated swimwear area on inhabited islands), crystal-clear lagoons, and vibrant marine life. Specialties include budget stays, local Maldivian cuisine like mas huni and hedika snacks, and cultural immersion. Cool activities: snorkeling and diving excursions, dolphin-watching cruises, water sports (jet skiing, parasailing), sandbank picnics, resort day passes, village tours to see traditional life, and sunset fishing trips. With over 100 guesthouses, it's perfect for backpackers seeking paradise without breaking the bank.",https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/36/ef/a2/active-watersports-maafushi.jpg?w=1200&h=700&s=1,https://www.maldivesislandsresorts.com/uploads/andamanislands/destinations/main/6762835d63bba184_maafushi.jpg
 Maldives,Vaadhoo Island (Sea of Stars),"Vaadhoo Island on Raa Atoll captivates visitors with its world-famous bioluminescent plankton phenomenon known as the 'Sea of Stars,' where waves and footsteps create a glowing blue sparkle at night due to dinoflagellates, best viewed during warm months (June-November). This quiet local island gained global fame through viral photographs promoting grassroots tourism. Specialties: Natural light show and serene beaches. Activities include night beach walks to witness the glow, snorkeling vibrant reefs, diving, kayaking through mangroves, fishing with locals, and cultural experiences like visiting mosques or trying traditional Boduberu drum performances. Stay in modest guesthouses for an authentic, off-the-grid escape.",https://img.atlasobscura.com/-714kRa70D74swzWNha3DgImXZho3G3Bnv3o5jaBEFo/rs:fill:780:520:1/g:ce/q:81/sm:1/scp:1/ar:1/aHR0cHM6Ly9hdGxh/cy1kZXYuczMuYW1h/em9uYXdzLmNvbS91/cGxvYWRzL3BsYWNl/X2ltYWdlcy85NWQ5/ZmE0OC0zYWE4LTRl/MTYtYmNjYS05Zjdi/YTNkNDk1MDFkZTRj/ZThmYzFlZWNhZmQy/OWJfRTQ2MUVCLmpw/Zw.jpg,https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/9f/1a/60/caption.jpg?w=800&h=-1&s=1
 Maldives,Hanifaru Bay,"Hanifaru Bay in Baa Atoll, a UNESCO Biosphere Reserve, transformed from a historical whale shark hunting site to one of the world's premier marine protected areas since the 1990s. Famous for massive feeding aggregations of up to 200 manta rays and whale sharks during plankton blooms (peak June-November). Strict conservation rules limit visitors and prohibit scuba diving to protect this natural cleaning station. Specialties: Bucket-list manta encounters. Activities: Guided snorkeling sessions (book in advance), contributing to citizen science via photo IDs, staying on nearby resort islands for multi-day experiences, and combining with reef dives in the atoll. A must for marine enthusiasts.",https://images.pexels.com/photos/9215864/pexels-photo-9215864.jpeg,https://images.pexels.com/photos/4751277/pexels-photo-4751277.jpeg
@@ -397,85 +359,72 @@ Bhutan,Thimphu (Buddha Dordenma Statue),"The 51-meter gilded Buddha Dordenma sta
 Bhutan,Dochula Pass,"Dochula Pass at 3,100m features 108 Druk Wangyal Chortens built in 2003 to honor soldiers from the 2003 Assam conflict, plus Druk Wangyal Lhakhang temple. On clear days, offers stunning 200° Himalayan views including Masang Gang. Specialties: Spiritual and scenic stop. Activities: Photography, short hikes around chortens, temple visits, tea at the cafe, and snow views in winter. Essential Paro-Thimphu route highlight.",https://www.andbeyond.com/wp-content/uploads/sites/5/Bhutan-Dochu-la-Pass-1365791744-Website-1920x1080-fill-gravityauto.jpg,https://tourbhutan.travel/wp-content/uploads/2023/11/1_Dochula_Pass-1.jpg
 Bhutan,Phobjikha Valley (Gangtey),"Phobjikha Valley, a glacial U-shaped wetland, is the winter home (November-March) for endangered black-necked cranes migrating from Tibet, who traditionally circle Gangtey Monastery three times upon arrival. Features 17th-century Gangtey Gonpa. Specialties: Crane festival and pristine nature. Activities: Crane watching from hides, valley nature trails and hikes, monastery visits, cultural homestays, potato farming experiences, and birdwatching. Peaceful, unspoiled rural Bhutan.",https://dynamic-media-cdn.tripadvisor.com/media/photo-o/13/de/01/0d/visit-phobjikha-valley.jpg?w=900&h=-1&s=1,https://cdn.audleytravel.com/1050/750/79/15978917-phobjikha-valley-bhutan.webp
 `;
-
-    const results = Papa.parse(csvData, { header: true, skipEmptyLines: true });
-    const allPlaces = results.data;
-
-    const placesByCountry = {};
-    allPlaces.forEach(place => {
-      if (!placesByCountry[place.Country]) {
-        placesByCountry[place.Country] = [];
-      }
-      placesByCountry[place.Country].push(place);
-    });
-
-    countryFilter.addEventListener('change', () => {
-      const selectedCountry = countryFilter.value;
-      placeFilter.innerHTML = '<option value="">Choose a place</option>';
-      detailsBox.style.display = 'none';
-      if (selectedCountry && placesByCountry[selectedCountry]) {
-        placeFilter.disabled = false;
-        placesByCountry[selectedCountry].forEach(place => {
-          const opt = document.createElement('option');
-          opt.value = place.Place;
-          opt.textContent = place.Place;
-          placeFilter.appendChild(opt);
+        const results = Papa.parse(csvData, { header: true, skipEmptyLines: true });
+        const allPlaces = results.data;
+        const placesByCountry = {};
+        allPlaces.forEach(place => {
+          if (!placesByCountry[place.Country]) {
+            placesByCountry[place.Country] = [];
+          }
+          placesByCountry[place.Country].push(place);
         });
-      } else {
-        placeFilter.disabled = true;
-      }
-    });
-
-    placeFilter.addEventListener('change', () => {
-      const selectedPlaceName = placeFilter.value;
-      if (!selectedPlaceName) {
-        detailsBox.style.display = 'none';
-        return;
-      }
-
-      const place = allPlaces.find(p => p.Place === selectedPlaceName);
-      if (place) {
-        placeName.textContent = place.Place;
-        descriptionText.textContent = place.Description;
-
-        imagesContainer.innerHTML = '';
-
-        if (place.Image_URL_1 && place.Image_URL_1.trim()) {
-          const img1 = document.createElement('img');
-          img1.src = place.Image_URL_1;
-          img1.alt = place.Place + ' - Image 1';
-          img1.onerror = () => { img1.src = 'https://via.placeholder.com/800x500/fffff0/d35400?text=Image+Not+Available'; };
-          img1.onclick = () => window.open(place.Image_URL_1, '_blank');
-          imagesContainer.appendChild(img1);
-        }
-
-        if (place.Image_URL_2 && place.Image_URL_2.trim()) {
-          const img2 = document.createElement('img');
-          img2.src = place.Image_URL_2;
-          img2.alt = place.Place + ' - Image 2';
-          img2.onerror = () => { img2.src = 'https://via.placeholder.com/800x500/fffff0/d35400?text=Image+Not+Available'; };
-          img2.onclick = () => window.open(place.Image_URL_2, '_blank');
-          imagesContainer.appendChild(img2);
-        }
-
-        detailsBox.style.display = 'block';
-        detailsBox.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  </script>
-</body>
-</html>
+        countryFilter.addEventListener('change', () => {
+          const selectedCountry = countryFilter.value;
+          placeFilter.innerHTML = '<option value="">Choose a place</option>';
+          detailsBox.style.display = 'none';
+          if (selectedCountry && placesByCountry[selectedCountry]) {
+            placeFilter.disabled = false;
+            placesByCountry[selectedCountry].forEach(place => {
+              const opt = document.createElement('option');
+              opt.value = place.Place;
+              opt.textContent = place.Place;
+              placeFilter.appendChild(opt);
+            });
+          } else {
+            placeFilter.disabled = true;
+          }
+        });
+        placeFilter.addEventListener('change', () => {
+          const selectedPlaceName = placeFilter.value;
+          if (!selectedPlaceName) {
+            detailsBox.style.display = 'none';
+            return;
+          }
+          const place = allPlaces.find(p => p.Place === selectedPlaceName);
+          if (place) {
+            placeName.textContent = place.Place;
+            descriptionText.textContent = place.Description;
+            imagesContainer.innerHTML = '';
+            if (place.Image_URL_1 && place.Image_URL_1.trim()) {
+              const img1 = document.createElement('img');
+              img1.src = place.Image_URL_1;
+              img1.alt = place.Place + ' - Image 1';
+              img1.onerror = () => { img1.src = 'https://via.placeholder.com/800x500/fffff0/d35400?text=Image+Not+Available'; };
+              img1.onclick = () => window.open(place.Image_URL_1, '_blank');
+              imagesContainer.appendChild(img1);
+            }
+            if (place.Image_URL_2 && place.Image_URL_2.trim()) {
+              const img2 = document.createElement('img');
+              img2.src = place.Image_URL_2;
+              img2.alt = place.Place + ' - Image 2';
+              img2.onerror = () => { img2.src = 'https://via.placeholder.com/800x500/fffff0/d35400?text=Image+Not+Available'; };
+              img2.onclick = () => window.open(place.Image_URL_2, '_blank');
+              imagesContainer.appendChild(img2);
+            }
+            detailsBox.style.display = 'block';
+            detailsBox.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      </script>
+    </body>
+    </html>
+    '''
 # ====================================
 # Shreya's part ends here
 # ====================================
-
-
 # ====================================
 # Rachana's Part Starts Here
 # ====================================
-        # ================================
-        # RouteAndRoam – Best Season Data
-        # ================================
 travel_data = {
     "Thailand": {
         "Phuket": {"season": "Cool & Dry Season", "months": "November to April"},
@@ -502,13 +451,73 @@ travel_data = {
         "Gardens by the Bay": {"season": "Festival Season", "months": "November to January"}
     }
 }
-        # ====================================
-        # Route Defining
-        # ====================================
-
-
 @app.route('/season', methods=['GET', 'POST'])
 def season():
+    base_style = """
+    <style>
+        body{
+            margin:0;
+            min-height:100vh;
+            font-family:'Poppins', sans-serif;
+            background:linear-gradient(135deg,#ffb300,#ff9800,#ff7043);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+        .card{
+            background:white;
+            padding:50px 70px;
+            border-radius:30px;
+            box-shadow:0 25px 60px rgba(0,0,0,0.25);
+            text-align:center;
+            width:90%;
+            max-width:600px;
+        }
+        h1{
+            color:#e65100;
+            font-size:42px;
+            margin-bottom:30px;
+        }
+        p{
+            font-size:22px;
+            color:#444;
+        }
+        select, button{
+            padding:18px 25px;
+            font-size:20px;
+            border-radius:18px;
+            border:none;
+            margin-top:20px;
+            width:100%;
+        }
+        select{
+            background:#fff3e0;
+        }
+        button{
+            background:#ff6f00;
+            color:white;
+            cursor:pointer;
+            font-weight:600;
+        }
+        button:hover{
+            background:#e65100;
+        }
+        a{
+            display:inline-block;
+            margin-top:25px;
+            text-decoration:none;
+            color:white;
+            background:#ff9800;
+            padding:12px 35px;
+            border-radius:25px;
+            font-size:18px;
+        }
+        a:hover{
+            background:#e65100;
+        }
+    </style>
+    """
+
     if request.method == 'POST':
         country = request.form.get('country')
         place = request.form.get('place')
@@ -516,46 +525,57 @@ def season():
         if place:
             info = travel_data[country][place]
             return f"""
-            <h1>{place}</h1>
-            <p><b>Best Season:</b> {info['season']}</p>
-            <p><b>Best Months:</b> {info['months']}</p>
-            <br>
-            <a href="/season">Search Again</a> |
-            <a href="/">Home</a>
+            <html><body>
+            {base_style}
+            <div class="card">
+                <h1>{place}</h1>
+                <p><b>Best Season:</b> {info['season']}</p>
+                <p><b>Best Months:</b> {info['months']}</p>
+                <a href="/season">Search Again</a>
+                <br><br>
+                <a href="/">Home</a>
+            </div>
+            </body></html>
             """
 
         places = travel_data.get(country, {})
         options = "".join(f"<option value='{p}'>{p}</option>" for p in places)
 
         return f"""
-        <h1>Select Place in {country}</h1>
-        <form method="post">
-            <input type="hidden" name="country" value="{country}">
-            <select name="place" style="padding:15px;font-size:20px;">
-                {options}
-            </select><br><br>
-            <button style="padding:12px 40px;">Show Best Season</button>
-        </form>
+        <html><body>
+        {base_style}
+        <div class="card">
+            <h1>Select Place in {country}</h1>
+            <form method="post">
+                <input type="hidden" name="country" value="{country}">
+                <select name="place">
+                    {options}
+                </select>
+                <button>Show Best Season</button>
+            </form>
+        </div>
+        </body></html>
         """
 
-    country_options = "".join(
-        f"<option value='{c}'>{c}</option>" for c in travel_data
-    )
+    country_options = "".join(f"<option value='{c}'>{c}</option>" for c in travel_data)
 
     return f"""
-    <h1>Select Country</h1>
-    <form method="post">
-        <select name="country" style="padding:15px;font-size:20px;">
-            {country_options}
-        </select><br><br>
-        <button style="padding:12px 40px;">Next</button>
-    </form>
+    <html><body>
+    {base_style}
+    <div class="card">
+        <h1>Select Country</h1>
+        <form method="post">
+            <select name="country">
+                {country_options}
+            </select>
+            <button>Next</button>
+        </form>
+    </div>
+    </body></html>
     """
 # ====================================
 # Rachana's Part Ends Here
 # ====================================
-
-
 if __name__ == '__main__':
     print("RouteAndRoam started → Explore to your heart's content!")
     app.run(debug=True)
